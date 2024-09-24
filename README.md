@@ -61,7 +61,7 @@ ifup eth0
 
 10. Create an answerfile to speed up the installation:
 ```bash
-wget https://raw.githubusercontent.com/trefeon/Docker-Termux/blob/main/answerfile
+wget https://raw.githubusercontent.com/trefeon/Docker-Termux/main/answerfile
 ```
 
 > **NOTE:** If you see any error like this: `wget: bad address 'gist.githubusercontent.com'`, run the following command:
