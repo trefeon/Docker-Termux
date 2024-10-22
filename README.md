@@ -66,13 +66,12 @@ wget https://raw.githubusercontent.com/trefeon/Docker-Termux/main/answerfile
 
 > **NOTE:** If you see any error like this: `wget: bad address 'gist.githubusercontent.com'`, run the following command:
 > ```bash
-> echo -e "nameserver 192.168.1.1
-nameserver 1.1.1.1" > /etc/resolv.conf
-> ```
+>echo -e "nameserver 192.168.1.1\nnameserver 1.1.1.1" > /etc/resolv.conf
+>```
 
 11. Patch `setup-disk` to enable serial console output on boot:
 ```bash
-sed -i -E 's/(local kernel_opts)=.*/="console=ttyS0"/' /sbin/setup-disk
+sed -i -E 's/(local kernel_opts)=.*/\1="console=ttyS0"/' /sbin/setup-disk
 ```
 
 12. Run the setup to install Alpine to the disk:
