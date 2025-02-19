@@ -1,4 +1,3 @@
-
 # Installing Docker in Termux
 This repository contains instructions on how to install Docker in [Termux](https://termux.com/), a powerful terminal emulator for Android.
 
@@ -27,9 +26,9 @@ pkg install qemu-utils qemu-common qemu-system-x86_64-headless wget -y
 mkdir alpine && cd alpine
 ```
 
-5. Download Alpine Linux 3.20.3 (virt optimized) ISO:
+5. Download Alpine Linux 3.21.3 (virt optimized) ISO:
 ```bash
-wget http://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-virt-3.20.3-x86_64.iso
+wget https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-virt-3.21.3-x86_64.iso
 ```
 
 6. Create a disk (note it won't actually take 5GB of space, more like 500-600MB):
@@ -39,7 +38,7 @@ qemu-img create -f qcow2 alpine.img 5G
 
 7. Boot it up:
 ```bash
-qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 -drive if=pflash,format=raw,read-only=on,file=$PREFIX/share/qemu/edk2-x86_64-code.fd -netdev user,id=n1,dns=8.8.8.8,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n1 -cdrom alpine-virt-3.20.3-x86_64.iso -nographic alpine.img
+qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 -drive if=pflash,format=raw,read-only=on,file=$PREFIX/share/qemu/edk2-x86_64-code.fd -netdev user,id=n1,dns=8.8.8.8,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n1 -cdrom alpine-virt-3.21.3-x86_64.iso -nographic alpine.img
 ```
 
 8. Login with username `root` (no password).
@@ -53,7 +52,6 @@ localhost:~# setup-interfaces
  Ip address for eth0? (or 'dhcp', 'none', '?') [dhcp]
  Do you want to do any manual network configuration? [no]
 ```
-
 After that, bring up the interface:
 ```bash
 ifup eth0
@@ -63,11 +61,10 @@ ifup eth0
 ```bash
 wget https://raw.githubusercontent.com/trefeon/Docker-Termux/main/answerfile
 ```
-
 > **NOTE:** If you see any error like this: `wget: bad address 'gist.githubusercontent.com'`, run the following command:
 > ```bash
->echo -e "nameserver 192.168.1.1\nnameserver 1.1.1.1" > /etc/resolv.conf
->```
+> echo -e "nameserver 192.168.1.1\nnameserver 1.1.1.1" > /etc/resolv.conf
+> ```
 
 11. Patch `setup-disk` to enable serial console output on boot:
 ```bash
@@ -86,7 +83,7 @@ setup-alpine -f answerfile
 qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 -drive if=pflash,format=raw,read-only=on,file=$PREFIX/share/qemu/edk2-x86_64-code.fd -netdev user,id=n1,dns=8.8.8.8,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n1 -nographic alpine.img
 ```
 
-A. Create a script to simplify booting:
+### A. Create a script to simplify booting:
 ```bash
 nano run_qemu.sh
 ```
@@ -97,12 +94,12 @@ qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 -drive if=pflash
 ```
 Save and exit.
 
-B. Make the script executable:
+### B. Make the script executable:
 ```bash
 chmod +x run_qemu.sh
 ```
 
-C. Run the script:
+### C. Run the script:
 ```bash
 ./run_qemu.sh
 ```
@@ -142,3 +139,4 @@ If you encounter any issues during the installation process or have suggestions 
 
 # License
 This project is licensed under the [MIT License](LICENSE).
+
