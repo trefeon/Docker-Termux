@@ -9,6 +9,20 @@ Before proceeding with the installation, make sure you have the following prereq
 # Installation Steps
 Follow the steps below to install Docker in Termux:
 
+## 🚀 Automated Installation (Recommended)
+
+We now provide a script that handles dependencies, auto-detects the latest Alpine version, and configures port forwarding for the GUI.
+
+```bash
+wget https://raw.githubusercontent.com/trefeon/Docker-Termux/main/install.sh
+chmod +x install.sh
+./install.sh
+```
+
+## 🛠️ Manual Installation Steps
+
+If you prefer to do it manually, follow these steps:
+
 1. Open Termux on your Android device.
 
 2. Update and upgrade the packages by running the following command:
@@ -26,9 +40,9 @@ pkg install qemu-utils qemu-common qemu-system-x86_64-headless wget -y
 mkdir alpine && cd alpine
 ```
 
-5. Download Alpine Linux 3.21.3 (virt optimized) ISO:
+5. Download Alpine Linux 3.23.4 (virt optimized) ISO:
 ```bash
-wget https://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-virt-3.21.3-x86_64.iso
+wget https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-virt-3.23.4-x86_64.iso
 ```
 
 6. Create a disk (note it won't actually take 5GB of space, more like 500-600MB):
@@ -38,7 +52,7 @@ qemu-img create -f qcow2 alpine.img 5G
 
 7. Boot it up:
 ```bash
-qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 -drive if=pflash,format=raw,read-only=on,file=$PREFIX/share/qemu/edk2-x86_64-code.fd -netdev user,id=n1,dns=8.8.8.8,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n1 -cdrom alpine-virt-3.21.3-x86_64.iso -nographic alpine.img
+qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 -drive if=pflash,format=raw,read-only=on,file=$PREFIX/share/qemu/edk2-x86_64-code.fd -netdev user,id=n1,dns=8.8.8.8,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n1 -cdrom alpine-virt-3.23.4-x86_64.iso -nographic alpine.img
 ```
 
 8. Login with username `root` (no password).
@@ -130,6 +144,29 @@ docker run hello-world
 # Some useful keys:
 - `Ctrl+a x`: Quit emulation.
 - `Ctrl+a h`: Toggle QEMU console.
+
+## 🖥️ Docker GUI (Portainer)
+
+To manage your containers with a beautiful web interface, follow these steps inside the Alpine VM:
+
+1. Install and start Docker:
+
+```bash
+apk add docker
+service docker start
+rc-update add docker
+```
+
+2. Run Portainer CE:
+
+```bash
+docker run -d -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce:latest
+```
+
+3. Access the GUI:
+
+Open your Android browser and go to:
+**[http://localhost:9000](http://localhost:9000)**
 
 # Usage
 Now that Docker is installed in Termux, you can start using it to manage and run containers on your Android device. Refer to the official [Docker documentation](https://docs.docker.com/) for more information on how to use Docker.

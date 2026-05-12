@@ -1,4 +1,4 @@
-# Alpine Linux 3.20.3 answer file
+# Alpine Linux 3.23.4 answer file
 
 KEYMAPOPTS="tr"
 HOSTNAMEOPTS="-n alpine"
@@ -11,7 +11,7 @@ iface eth0 inet dhcp
 "
 TIMEZONEOPTS="-z UTC"
 PROXYOPTS="none"
-APKREPOSOPTS="http://dl-cdn.alpinelinux.org/alpine/v3.20/main http://dl-cdn.alpinelinux.org/alpine/v3.20/community"
+APKREPOSOPTS="http://dl-cdn.alpinelinux.org/alpine/v3.23/main http://dl-cdn.alpinelinux.org/alpine/v3.23/community"
 SSHDOPTS="-c openssh"
 NTPOPTS="-c busybox"
 DISKOPTS="-v -m sys -s 0 /dev/sda"
