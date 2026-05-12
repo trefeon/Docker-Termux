@@ -40,9 +40,13 @@ pkg install qemu-utils qemu-common qemu-system-x86_64-headless wget -y
 mkdir alpine && cd alpine
 ```
 
-5. Download Alpine Linux 3.23.4 (virt optimized) ISO:
+5. Download the latest Alpine Linux (virt optimized) ISO:
 ```bash
-wget https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-virt-3.23.4-x86_64.iso
+# Get latest version name
+ISO_NAME=$(curl -s https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/ | grep -oE 'alpine-virt-[0-9.]+-x86_64.iso' | head -n 1)
+
+# Download it
+wget https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/$ISO_NAME
 ```
 
 6. Create a disk (note it won't actually take 5GB of space, more like 500-600MB):
@@ -50,9 +54,9 @@ wget https://dl-cdn.alpinelinux.org/alpine/v3.23/releases/x86_64/alpine-virt-3.2
 qemu-img create -f qcow2 alpine.img 5G
 ```
 
-7. Boot it up:
+7. Boot it up (Replace $ISO_NAME with the file you downloaded):
 ```bash
-qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 -drive if=pflash,format=raw,read-only=on,file=$PREFIX/share/qemu/edk2-x86_64-code.fd -netdev user,id=n1,dns=8.8.8.8,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n1 -cdrom alpine-virt-3.23.4-x86_64.iso -nographic alpine.img
+qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 -drive if=pflash,format=raw,read-only=on,file=$PREFIX/share/qemu/edk2-x86_64-code.fd -netdev user,id=n1,dns=8.8.8.8,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n1 -cdrom $ISO_NAME -nographic alpine.img
 ```
 
 8. Login with username `root` (no password).
